@@ -1,4 +1,4 @@
-const FoodItem = require("../models/foodItem.model.js");
+const FoodItem = require("../models/FoodItem.model.js");
 
 const foodItem = async (req, res, next) => {
   try {
