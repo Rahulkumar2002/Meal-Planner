@@ -1,20 +1,48 @@
-const mealModel = require("../models/meal.model");
+const Meal = require("../models/Meal.model");
+
+const GetMealById = async (req , res , next) => {
+  try{
+      const meal  = await Meal.findById(req.params.id).populate('mealItem'); 
+      if(!meal){
+          return res.status(404).json("Meal not found invalid id!");
+      }
+
+      res.status(200).json(meal) ; 
+  }catch(err){
+      console.log(err);
+      res.status(500).json(err) ; 
+  }
+}
+
 
 const MealController = async (req, res, next) => {
   try {
-    let meal = new mealModel({
+    let meal = new Meal({
       category: req.body.category,
       name: req.body.name,
       mealItem: req.body.mealItem,
     });
 
     meal = await meal.save();
-    const populatedMeal = await mealModel.find({}).populate("mealItem");
-    res.status(201).json(populatedMeal);
+    res.status(201).json(meal);
   } catch (error) {
     console.log(error);
     res.status(500).json(error);
   }
 };
 
-module.exports = MealController;
+const UpdateMeal = async (req , res , next) => {
+  try{
+  
+   await Meal.findByIdAndUpdate(req.params.id, {
+      mealItem : req.body.mealItem
+   })
+  
+   res.status(204).json("Meal Item Updated Successfully") ;
+  }catch(err){
+      console.log(err);
+      res.status(500).json(err);
+  }
+  }
+
+module.exports = {MealController, UpdateMeal , GetMealById};

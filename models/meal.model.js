@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const FoodItem = require("./FoodItem.model");
-// Check if enum values also works if it is in lowercase.
 const Meal = new mongoose.Schema(
   {
     category: {
