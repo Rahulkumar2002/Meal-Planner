@@ -29,7 +29,7 @@ const Calculator = (item) => {
     cal += item[i].calories;
     i++;
   }
-  console.log([sum , cal]);
+  // console.log([sum , cal]);
   return [sum, cal];
 };
 
