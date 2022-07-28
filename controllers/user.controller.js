@@ -1,5 +1,14 @@
 const User = require("../models/user.model");
 
+const getAllUsers = async (req , res) => {
+    try{
+       const user = await User.find({}).populate('mealPlan.mealId') ; 
+       res.status(200).json(user) ; 
+    }catch(err){
+      res.status(500).json(err); 
+    }
+  }
+
 const GetUserById = async (req , res , next) => {
     try{
         const user  = await User.findById(req.params.id).populate('mealPlan.mealId'); 
@@ -46,4 +55,4 @@ try{
 }
 
 
-module.exports = {UserController , UpdateUser , GetUserById} ; 
+module.exports = {UserController , UpdateUser , GetUserById , getAllUsers} ; 

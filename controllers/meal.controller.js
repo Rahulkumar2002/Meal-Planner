@@ -1,19 +1,27 @@
 const Meal = require("../models/Meal.model");
 
-const GetMealById = async (req , res , next) => {
-  try{
-      const meal  = await Meal.findById(req.params.id).populate('mealItem'); 
-      if(!meal){
-          return res.status(404).json("Meal not found invalid id!");
-      }
-
-      res.status(200).json(meal) ; 
-  }catch(err){
-      console.log(err);
-      res.status(500).json(err) ; 
+const getAllMeal = async (req, res) => {
+  try {
+    const meal = await Meal.find({}).populate("mealItem");
+    res.status(200).json(meal);
+  } catch (err) {
+    res.status(500).json(err);
   }
-}
+};
 
+const GetMealById = async (req, res, next) => {
+  try {
+    const meal = await Meal.findById(req.params.id).populate("mealItem");
+    if (!meal) {
+      return res.status(404).json("Meal not found invalid id!");
+    }
+
+    res.status(200).json(meal);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+};
 
 const MealController = async (req, res, next) => {
   try {
@@ -31,18 +39,17 @@ const MealController = async (req, res, next) => {
   }
 };
 
-const UpdateMeal = async (req , res , next) => {
-  try{
-  
-   await Meal.findByIdAndUpdate(req.params.id, {
-      mealItem : req.body.mealItem
-   })
-  
-   res.status(204).json("Meal Item Updated Successfully") ;
-  }catch(err){
-      console.log(err);
-      res.status(500).json(err);
-  }
-  }
+const UpdateMeal = async (req, res, next) => {
+  try {
+    await Meal.findByIdAndUpdate(req.params.id, {
+      mealItem: req.body.mealItem,
+    });
 
-module.exports = {MealController, UpdateMeal , GetMealById};
+    res.status(204).json("Meal Item Updated Successfully");
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+};
+
+module.exports = { MealController, UpdateMeal, GetMealById, getAllMeal };
